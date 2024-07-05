@@ -1,0 +1,15 @@
+#! /bin/sh
+
+LOG_FILE=/var/log/synothumb.log
+SYNOTHUMB=/usr/syno/bin/synothumb.orig
+REQ_ID=$(tr -dc 'A-Za-z0-9' < /dev/urandom | head -c 16)
+
+now=$(date +"%Y-%m-%d %H:%M:%S")
+echo "[$now] [${REQ_ID}] Calling $0 $* ..." >> ${LOG_FILE} 2>&1
+
+${SYNOTHUMB} $*
+r=$?
+now=$(date +"%Y-%m-%d %H:%M:%S")
+echo "[$now] [${REQ_ID}] Got exit-code $r" >> ${LOG_FILE} 2>&1
+
+exit $r
